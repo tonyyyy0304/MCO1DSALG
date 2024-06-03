@@ -1,6 +1,6 @@
 #include<string.h>
 #include<stdio.h>
-#include<conio.h>
+
 
 typedef char String100[100];
 typedef char String256[256];
