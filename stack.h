@@ -3,20 +3,14 @@
 
 #include <stdbool.h>
 
+typedef char String100[100];
+typedef char String256[256];
+typedef char token10[100];
+
 typedef struct Stack{
-    int top;
-    char *store;
-    int capacity;
-
+    token10 token[256];
+    int topIndex;
 }Stack;
-
-Stack *createStack(int capacity);
-int peekTopIndex(Stack *stack);
-bool isStackEmpty(Stack *stack);
-void push(Stack *stack, char token);
-char pop(Stack *stack);
-char peekStack(Stack *stack);
-void clearStack(Stack *stack);
 
 
 #endif

@@ -3,9 +3,7 @@
 #include "queue.h"
 #include "stack.h"
 
-typedef char String100[100];
-typedef char String256[256];
-typedef char token10[100];
+
 
 int isDigit(char c)
 {

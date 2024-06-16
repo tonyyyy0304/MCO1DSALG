@@ -1,51 +1,34 @@
 #include <stdlib.h>
+#include <string.h>
 #include "stack.h"
 
-Stack *createStack(int capacity){
-
-    Stack *stack = malloc(sizeof(Stack));
-    stack->capacity = capacity;
-    stack->top = -1;
-    stack->store = malloc(sizeof(stack->store) * sizeof(char));
-
-    return stack;
+void initStack(Stack* stack)
+{
+    stack->topIndex = 0;
 }
 
-int peekTopIndex(Stack *stack){
-    return stack->top;
+int push(Stack* stack, char* src)
+{
+    if(stack->topIndex == 255)
+        return 0;
+    else
+    {
+        strcpy(stack->token[stack->topIndex], src);
+        (stack->topIndex)++;
+    }
+    return 1;
 }
 
-bool isStackEmpty(Stack *stack){
-    return (stack->top == -1);
-}
+int pop(Stack* stack, char* dest)
+{
 
-bool isStackFull(Stack *stack){
-    return (stack->top == stack->capacity - 1);
-}
-
-void push(Stack *stack, char token){
+    if(stack->topIndex == 0)
+        return 0;
+    else
+    {
+        strcpy(dest, stack->token[stack->topIndex]);
+        (stack->topIndex)--;
+        return 1;
+    }    
     
-    if (isStackFull(stack)){
-        return;
-    }
-
-    stack->store[stack->top++] = token;
-
-}
-
-char pop(Stack *stack){
-    if (isStackEmpty(stack)){
-        return '\0';
-    }
-
-    stack->top--;
-    return stack->store[stack->top];
-}
-
-char peekStack(Stack *stack){
-    return stack->store[stack->top];
-}
-
-void clearStack(Stack *stack){
-    stack->top = -1; // resets stack to -1
 }

@@ -1,10 +1,8 @@
 #include<string.h>
 #include<stdio.h>
+#include "queue.c"
+#include "stack.c"
 
-
-typedef char String100[100];
-typedef char String256[256];
-typedef char token10[11];
 
 int isDigit(char c)
 {
@@ -28,34 +26,9 @@ int isParenthesis(char c)
     return (c == '(' || c == ')');
 }
 
-void push(token10 stack[], char* src, int* top)
-{
-    strcpy(stack[*top], src);
-    (*top)++;
-}
-
-int enqueue(token10 queue[], char* src, int* tail, int* head)
-{
-
-    if(*tail == 254)
-        return 0;
-    else
-    {
-        if (*head == -1)
-            *head = 0;
-        *tail += 1;
-        strcpy(queue[*tail], src);
-        return 1;
-    } 
-}
-
-
-
-void tokenExtractor(char* stringInput, token10 queue[], int* headIndex, int* tailIndex)
+void tokenExtractor(char* stringInput, Queue* queue)
 {
     int i;
-
-    *headIndex = -1, *tailIndex = -1;
 
     char temp[100] = "\0";
 
@@ -68,7 +41,7 @@ void tokenExtractor(char* stringInput, token10 queue[], int* headIndex, int* tai
 
             if(!isDigit(stringInput[i+1]))
             {
-                enqueue(queue, temp, tailIndex, headIndex);
+                enqueue(queue, temp);
                 strcpy(temp, "\0");
             }
         }
@@ -78,16 +51,18 @@ void tokenExtractor(char* stringInput, token10 queue[], int* headIndex, int* tai
 
             if(!isOperator(stringInput[i+1]))
             {
-                enqueue(queue, temp, tailIndex, headIndex);
+                enqueue(queue, temp);
                 strcpy(temp, "\0");
             }
         }
         else if(isParenthesis(stringInput[i]))
         {
             strncat(temp, &stringInput[i], 1);
-            enqueue(queue, temp, tailIndex, headIndex);
+            enqueue(queue, temp);
             strcpy(temp, "\0");
         }
     }
 }
+
+
 

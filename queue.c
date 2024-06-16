@@ -2,66 +2,44 @@
 #include <stdio.h>
 #include "queue.h"
 
-Queue* createQueue(){
-    Queue *q = malloc(sizeof(Queue));
-
-    q->head = NULL;
-    q->tail = NULL;
-    q->size = 0;
-
-    return q;
+void initQueue(Queue* queue) {
+    queue->headIndex = 0;
+    queue->tailIndex = 0;
 }
 
-int sizeOfQueue(Queue *q){
-    return q->size;
+int enqueue(Queue* queue, char* src)
+{
+    if(queue->tailIndex == 255)
+        return 0;
+    else
+    {
+        strcpy(queue->token[queue->tailIndex], src);
+        queue->tailIndex += 1;
+        return 1;
+    } 
 }
 
-bool isQueuempty(Queue *q){
-    return (q->size == 0);
-}
+int dequeue(Queue* queue, char* dest)
+{
+    if(queue->headIndex == 0)
+        return 0;
+    else
+    {       
+        strcpy(dest, queue->token[queue->headIndex]);
 
-char peekQueue(Queue *q){
-    return q->head->value; 
-}
+        strcpy(queue->token[queue->headIndex], "\0");
+        //removes the token in the current head index after dequeueing
 
-void Enqueue(Queue *q, char token){
-    Node *nextNode = malloc(sizeof(Node));
+        if (queue->headIndex == queue->tailIndex) //if dequeue will empty the queue, reset values to -1
+        {
+            queue->headIndex = 0;
+            queue->tailIndex = 0;
+        }
+        else
+            queue->headIndex++;//we shift the head
 
-    nextNode->value = token; // stores token to the link 
-    nextNode->next = NULL; // creates a new link
-
-    if(isQueuempty(q)){ // checks if token is empty 
-        q->head = nextNode;  // both head and tail points to the new node 
-        q->tail = nextNode;
-    }else{
-        q->tail->next = nextNode; // the tail points to the new node 
-        q->tail = nextNode; // updates the current node 
+        return 1;
     }
-
-    q->size++; // increments size of queue
-
 }
 
-char Dequeue(Queue *q){
 
-    if (isQueuempty(q) || q->head == NULL){
-        printf("Head is empty");
-        return '\0';
-    }
-
-    char head = q->head->value;
-
-    Node* oldHead = q->head;
-
-    q->head = q->head->next;
-
-    free(oldHead);
-
-    if (q->head == NULL){ 
-        q->tail = NULL; 
-    }
-  
-    q->size--;
-
-    return head;
-}

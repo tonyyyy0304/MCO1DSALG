@@ -3,22 +3,16 @@
 
 #include <stdbool.h>
 
-typedef struct Node{
-    char value;
-    struct Node *next;
-}Node;
+typedef char String100[100];
+typedef char String256[256];
+typedef char token10[100];
+
 
 typedef struct Queue{
-    Node *head;
-    Node *tail;
-    int size;
+    token10 token[256];
+    int headIndex;
+    int tailIndex;
 }Queue;
 
-Queue *createQueue();
-int sizeOfQueue(Queue *q);
-char peekQueue(Queue *q);
-void Enqueue(Queue *q, char token);
-char Dequeue(Queue *q);
-bool isQueuempty(Queue *q);
 
 #endif
