@@ -3,6 +3,7 @@
 #include "queue.c"
 #include "stack.c"
 
+typedef char output[10];
 
 int isDigit(char c)
 {
@@ -64,5 +65,63 @@ void tokenExtractor(char* stringInput, Queue* queue)
     }
 }
 
+int InComingPrecedence(char* operator){
+    
+    if (strcmp(operator, "^") == 0){
+        return 4;
+    }else if (strcmp(operator, "*") == 0 || strcmp(operator, "/") == 0){
+        return 2;
+    }else if (strcmp(operator, "+") == 0 || strcmp(operator, "-") == 0){
+        return 1;
+    }
 
+    return 0;
+}
+
+int InStackPrecedence(char* operator){
+
+    if (strcmp(operator, "^") == 0){
+        return 3;
+    }else if (strcmp(operator, "*") == 0 || strcmp(operator, "/") == 0){
+        return 2;
+    }else if (strcmp(operator, "+") == 0 || strcmp(operator, "-") == 0){
+        return 1;
+    }
+
+    return 0;
+}
+
+void infixToPostfix(Queue* queue, Queue* keep, Stack *stack, int length){
+    int i;
+    char temp[100];
+
+    for (i = 0; i < length; i++){
+        if (isDigit(keep->token[i][0])){
+            enqueue(queue, keep->token[i]);
+        }else if (isOperator(keep->token[i][0])){
+           while(stack->topIndex != 0 && InComingPrecedence(keep->token[i]) <= InStackPrecedence(stack->token[stack->topIndex - 1])){
+                pop(stack, temp);
+                enqueue(queue, temp);
+            }
+
+            push(stack, keep->token[i]);
+            
+        }else if (strcmp(keep->token[i], "(") == 0){
+             push(stack, keep->token[i]);
+        }else if (strcmp(keep->token[i], ")") == 0){
+            while (stack->topIndex != 0 && strcmp(stack->token[stack->topIndex - 1], "(") != 0) {
+                pop(stack, temp);
+                enqueue(queue, temp);
+            }
+
+            pop(stack, temp);
+        }
+    }
+
+    while (stack->topIndex != 0){
+        pop(stack, temp);
+        enqueue(queue, temp);
+    }
+
+}
 
