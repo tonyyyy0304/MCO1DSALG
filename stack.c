@@ -4,7 +4,7 @@
 
 void initStack(Stack* stack)
 {
-    stack->topIndex = 0;
+    stack->topIndex = -1;
 }
 
 int push(Stack* stack, char* src)
@@ -13,8 +13,9 @@ int push(Stack* stack, char* src)
         return 0;
     else
     {
+        stack->topIndex += 1;
         strcpy(stack->token[stack->topIndex], src);
-        (stack->topIndex)++;
+       
     }
     return 1;
 }
@@ -22,12 +23,12 @@ int push(Stack* stack, char* src)
 int pop(Stack* stack, char* dest)
 {
 
-    if(stack->topIndex == 0)
+    if(stack->topIndex == -1)
         return 0;
     else
     {
         strcpy(dest, stack->token[stack->topIndex]);
-        (stack->topIndex)--;
+        stack->topIndex -= 1;
         return 1;
     }    
     

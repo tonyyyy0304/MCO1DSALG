@@ -3,8 +3,8 @@
 #include "queue.h"
 
 void initQueue(Queue* queue) {
-    queue->headIndex = 0;
-    queue->tailIndex = 0;
+    queue->headIndex = -1;
+    queue->tailIndex = -1;
 }
 
 int enqueue(Queue* queue, char* src)
@@ -13,18 +13,22 @@ int enqueue(Queue* queue, char* src)
         return 0;
     else
     {
-        strcpy(queue->token[queue->tailIndex], src);
+        if(queue->headIndex == -1)
+            queue->headIndex = 0;'
+        '
         queue->tailIndex += 1;
+        strcpy(queue->token[queue->tailIndex], src);
         return 1;
     } 
 }
 
 int dequeue(Queue* queue, char* dest)
 {
-    if(queue->headIndex == 0)
+    if(queue->headIndex == -1)
         return 0;
     else
     {       
+        
         strcpy(dest, queue->token[queue->headIndex]);
 
         strcpy(queue->token[queue->headIndex], "\0");
@@ -32,12 +36,12 @@ int dequeue(Queue* queue, char* dest)
 
         if (queue->headIndex == queue->tailIndex) //if dequeue will empty the queue, reset values to -1
         {
-            queue->headIndex = 0;
-            queue->tailIndex = 0;
+            queue->headIndex = -1;
+            queue->tailIndex = -1;
         }
         else
-            queue->headIndex++;//we shift the head
-
+            queue->headIndex += 1;//we shift the head
+            
         return 1;
     }
 }
