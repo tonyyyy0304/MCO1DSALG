@@ -18,31 +18,32 @@ int main()
     initQueue(&postfixEquation);
     initStack(&operandStack);
     initStack(&operatorStack);
-
-    int n;
+    
     String256 temp;
 
-    printf("Select how many expressions: ");
-    scanf("%d", &n);
-
-    for(int i = 0; i < n; i++)
-   {
+    
+    do{
+        printf("Input infix expression (enter QUIT to end program): ");
         scanf(" %s", input);
         
+        if (strcmp(input, "QUIT") != 0){
+            tokenExtractor(input, &equation);
+            infixToPostfix(&postfixEquation, &equation, &operatorStack, equation.tailIndex);
 
-        tokenExtractor(input, &equation);
-        infixToPostfix(&postfixEquation, &equation, &operatorStack, equation.tailIndex);
+            printf("\n");
+            printf("Postfix: ");
+            while(dequeue(&postfixEquation, temp)){
+                printf("%s ", temp);
+            }
 
+            printf("\n");
+            resetQueue(&postfixEquation);
+            resetQueue(&equation);
+            resetStack(&operatorStack);
 
-        while(dequeue(&postfixEquation, temp)){
-            printf("%s ", temp);
+            printf("\n");
         }
+    }while(strcmp(input, "QUIT") != 0);
 
-        printf("\n");
-        resetQueue(&postfixEquation);
-        resetQueue(&equation);
-        resetStack(&operatorStack);
-   }
-
-    getch();
+    return 0;
 }
