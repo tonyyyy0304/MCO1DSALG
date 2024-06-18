@@ -35,13 +35,13 @@ int main()
          while(dequeue(&equation, temp)){
             printf("%s ", temp);
         }
-        
-        /*while(dequeue(&postfixEquation, temp)){
+        printf("\n");
+        while(dequeue(&postfixEquation, temp)){
             printf("%s ", temp);
-        }*/
+        }
 
         printf("\n");
-
+        resetQueue(&postfixEquation);
         resetQueue(&equation);
         resetStack(&operatorStack);
    }
