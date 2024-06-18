@@ -21,7 +21,6 @@ int main()
     
     String256 temp;
 
-    
     do{
         printf("Input infix expression (enter QUIT to end program): ");
         scanf(" %s", input);
