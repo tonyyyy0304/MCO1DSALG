@@ -32,10 +32,8 @@ int main()
 
         tokenExtractor(input, &equation);
         infixToPostfix(&postfixEquation, &equation, &operatorStack, equation.tailIndex);
-         while(dequeue(&equation, temp)){
-            printf("%s ", temp);
-        }
-        printf("\n");
+
+
         while(dequeue(&postfixEquation, temp)){
             printf("%s ", temp);
         }

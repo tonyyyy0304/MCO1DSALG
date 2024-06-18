@@ -112,11 +112,11 @@ void infixToPostfix(Queue* queue, Queue* keep, Stack *stack, int length){
     int i;
     char temp[100];
 
-    for (i = 0; i < length && strcmp(queue->token[i], "\0") != 0 ; i++){
+    for (i = 0; i <= length; i++){
         if (isDigit(keep->token[i][0])){
             enqueue(queue, keep->token[i]);
         }else if (isOperator(keep->token[i][0])){
-           while(stack->topIndex != 0 && InComingPrecedence(keep->token[i]) <= InStackPrecedence(stack->token[stack->topIndex - 1])){
+           while(stack->topIndex != -1 && InComingPrecedence(keep->token[i]) <= InStackPrecedence(stack->token[stack->topIndex])){
                 pop(stack, temp);
                 enqueue(queue, temp);
             }
@@ -126,7 +126,7 @@ void infixToPostfix(Queue* queue, Queue* keep, Stack *stack, int length){
         }else if (strcmp(keep->token[i], "(") == 0){
              push(stack, keep->token[i]);
         }else if (strcmp(keep->token[i], ")") == 0){
-            while (stack->topIndex != 0 && strcmp(stack->token[stack->topIndex - 1], "(") != 0) {
+            while (stack->topIndex != -1 && strcmp(stack->token[stack->topIndex], "(") != 0) {
                 pop(stack, temp);
                 enqueue(queue, temp);
             }
@@ -135,7 +135,7 @@ void infixToPostfix(Queue* queue, Queue* keep, Stack *stack, int length){
         }
     }
 
-    while (stack->topIndex != 0){
+    while (stack->topIndex != -1){
         pop(stack, temp);
         enqueue(queue, temp);
     }

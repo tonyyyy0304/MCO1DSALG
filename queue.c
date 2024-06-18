@@ -37,7 +37,6 @@ int dequeue(Queue* queue, char* dest)
         return 0;
     else
     {       
-        
         strcpy(dest, queue->token[queue->headIndex]);
 
         strcpy(queue->token[queue->headIndex], "\0");
