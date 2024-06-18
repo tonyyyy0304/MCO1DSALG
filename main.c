@@ -1,36 +1,50 @@
 #include<stdio.h>
-#include "./getters.h"
+#include "getters.h"
 #include<conio.h>
+#include "infixToPostfix.c"
 
-struct operandStack
-{
-    int operandNum;
-    struct operandStack* next;
-};
-
-struct operatorStack
-{
-    char operatorChar;
-    struct operatorStack* next;
-};
-
-typedef char String256[257];
-
-void translateInfixToPostfix()
-{
-
-}
-
-
+#define MAX_INPUT 255
 
 int main()
 {
+    Stack operandStack;
+    Stack operatorStack;
+
+    Queue equation;
+    Queue postfixEquation;
     String256 input;
-    scanf("%s", input);
 
-    //String256 equationQueue;
+    initQueue(&equation);
+    initQueue(&postfixEquation);
+    initStack(&operandStack);
+    initStack(&operatorStack);
 
+    int n;
+    String256 temp;
 
-    printf("%d", getSum(1,2));
+    printf("Select how many expressions: ");
+    scanf("%d", &n);
+
+    for(int i = 0; i < n; i++)
+   {
+        scanf(" %s", input);
+        
+
+        tokenExtractor(input, &equation);
+        infixToPostfix(&postfixEquation, &equation, &operatorStack, equation.tailIndex);
+         while(dequeue(&equation, temp)){
+            printf("%s ", temp);
+        }
+        
+        /*while(dequeue(&postfixEquation, temp)){
+            printf("%s ", temp);
+        }*/
+
+        printf("\n");
+
+        resetQueue(&equation);
+        resetStack(&operatorStack);
+   }
+
     getch();
 }

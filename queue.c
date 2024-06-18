@@ -5,6 +5,15 @@
 void initQueue(Queue* queue) {
     queue->headIndex = -1;
     queue->tailIndex = -1;
+    for(int i = 0; i<256; i++)
+        strcpy(queue->token[i], "\0");
+}
+
+void resetQueue(Queue* queue){
+    queue->headIndex = -1;
+    queue->tailIndex = -1;
+    for(int i = 0; i<256; i++)
+        strcpy(queue->token[i], "\0");
 }
 
 int enqueue(Queue* queue, char* src)
@@ -14,8 +23,8 @@ int enqueue(Queue* queue, char* src)
     else
     {
         if(queue->headIndex == -1)
-            queue->headIndex = 0;'
-        '
+            queue->headIndex = 0;
+        
         queue->tailIndex += 1;
         strcpy(queue->token[queue->tailIndex], src);
         return 1;

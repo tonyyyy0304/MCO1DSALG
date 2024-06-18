@@ -15,7 +15,7 @@ int isDigit(char c)
 
 int isOperator(char c)
 {
-     if(c == '+' || c == '*' ||c == '/' ||c == '-' || c == '!' ||
+     if(c == '+' || c == '*' ||c == '/' ||c == '-' || c == '!' || c == '%' ||
         c == '^' ||c == '<' ||c == '>' || c == '=' || c == '|' || c == '&')
         return 1;
     else
@@ -68,10 +68,19 @@ void tokenExtractor(char* stringInput, Queue* queue)
 int InComingPrecedence(char* operator){
     
     if (strcmp(operator, "^") == 0){
-        return 4;
+        return 7;
     }else if (strcmp(operator, "*") == 0 || strcmp(operator, "/") == 0){
-        return 2;
+        return 6;
     }else if (strcmp(operator, "+") == 0 || strcmp(operator, "-") == 0){
+        return 5;
+    }else if (strcmp(operator, "<=") == 0 || strcmp(operator, ">=") == 0 || 
+                strcmp(operator, ">") == 0 || strcmp(operator, "<") == 0){
+        return 4;
+    }else if (strcmp(operator, "==") == 0 || strcmp(operator, "!=") == 0){
+        return 3;
+    }else if (strcmp(operator, "&&") == 0){
+        return 2;
+    }else if (strcmp(operator, "||") == 0){
         return 1;
     }
 
@@ -81,13 +90,21 @@ int InComingPrecedence(char* operator){
 int InStackPrecedence(char* operator){
 
     if (strcmp(operator, "^") == 0){
-        return 3;
+        return 7;
     }else if (strcmp(operator, "*") == 0 || strcmp(operator, "/") == 0){
-        return 2;
+        return 6;
     }else if (strcmp(operator, "+") == 0 || strcmp(operator, "-") == 0){
+        return 5;
+    }else if (strcmp(operator, "<=") == 0 || strcmp(operator, ">=") == 0 || 
+                strcmp(operator, ">") == 0 || strcmp(operator, "<") == 0){
+        return 4;
+    }else if (strcmp(operator, "==") == 0 || strcmp(operator, "!=") == 0){
+        return 3;
+    }else if (strcmp(operator, "&&") == 0){
+        return 2;
+    }else if (strcmp(operator, "||") == 0){
         return 1;
     }
-
     return 0;
 }
 
@@ -95,7 +112,7 @@ void infixToPostfix(Queue* queue, Queue* keep, Stack *stack, int length){
     int i;
     char temp[100];
 
-    for (i = 0; i < length; i++){
+    for (i = 0; i < length && strcmp(queue->token[i], "\0") != 0 ; i++){
         if (isDigit(keep->token[i][0])){
             enqueue(queue, keep->token[i]);
         }else if (isOperator(keep->token[i][0])){

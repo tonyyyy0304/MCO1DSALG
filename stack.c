@@ -5,7 +5,17 @@
 void initStack(Stack* stack)
 {
     stack->topIndex = -1;
+     for(int i = 0; i<256; i++)
+        strcpy(stack->token[i], "\0");
 }
+
+void resetStack(Stack* stack)
+{
+    stack->topIndex = -1;
+     for(int i = 0; i<256; i++)
+        strcpy(stack->token[i], "\0");
+}
+
 
 int push(Stack* stack, char* src)
 {
