@@ -96,7 +96,7 @@ void tokenExtractor(char* stringInput, Queue* queue)
         else if(isOperator(stringInput[i]))
         {
             strncat(temp, &stringInput[i], 1);
-            if(isOperator(stringInput[i+1]))
+            if(isOperator(stringInput[i+1]) && !isUnaryOperator(stringInput[i+1]))
             {
                 strncat(temp, &stringInput[i+1], 1);
                 i++;
@@ -127,7 +127,7 @@ int InComingPrecedence(char* operator){
     if (strcmp(operator, "!") == 0){
         return 9;
     }else if (strcmp(operator, "^") == 0){
-        return 7;
+        return 8;
     }else if (strcmp(operator, "*") == 0 || strcmp(operator, "/") == 0 || strcmp(operator, "%") == 0){
         return 6;
     }else if (strcmp(operator, "+") == 0 || strcmp(operator, "-") == 0){
