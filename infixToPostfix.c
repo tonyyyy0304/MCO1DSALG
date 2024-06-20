@@ -1,5 +1,3 @@
-typedef char output[10];
-
 /**
  * @brief Check if a character is a digit.
  *
@@ -128,7 +126,7 @@ int InComingPrecedence(char* operator){
         return 9;
     }else if (strcmp(operator, "^") == 0){
         return 7;
-    }else if (strcmp(operator, "*") == 0 || strcmp(operator, "/") == 0){
+    }else if (strcmp(operator, "*") == 0 || strcmp(operator, "/") == 0 || strcmp(operator, "%") == 0){
         return 6;
     }else if (strcmp(operator, "+") == 0 || strcmp(operator, "-") == 0){
         return 5;
@@ -160,7 +158,7 @@ int InStackPrecedence(char* operator){
         return 8;
     }else if (strcmp(operator, "^") == 0){
         return 7;
-    }else if (strcmp(operator, "*") == 0 || strcmp(operator, "/") == 0){
+    }else if (strcmp(operator, "*") == 0 || strcmp(operator, "/") == 0 || strcmp(operator, "%") == 0){
         return 6;
     }else if (strcmp(operator, "+") == 0 || strcmp(operator, "-") == 0){
         return 5;
