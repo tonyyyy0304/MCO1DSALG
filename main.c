@@ -34,8 +34,8 @@ int main()
     FILE *fp_input;
     FILE *fp_output;
 
-    fp_input = fopen("infix.txt", "r");
-    fp_output = fopen("output.txt", "w");
+    fp_input = fopen("TESTCASE.txt", "r");
+    fp_output = fopen("RESULT.txt", "w");
 
     if (fp_input == NULL){
         printf("Error accessing file");
