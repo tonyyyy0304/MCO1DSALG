@@ -96,11 +96,13 @@ void tokenExtractor(char* stringInput, Queue* queue)
         else if(isOperator(stringInput[i]))
         {
             strncat(temp, &stringInput[i], 1);
-            if(!isOperator(stringInput[i+1]))
+            if(isOperator(stringInput[i+1]))
             {
-                enqueue(queue, temp);
-                strcpy(temp, "\0");
+                strncat(temp, &stringInput[i+1], 1);
+                i++;
             }
+            enqueue(queue, temp);
+            strcpy(temp, "\0");
         }
         else if(isParenthesis(stringInput[i]))
         {
