@@ -14,7 +14,10 @@
 int postfixAnswer(int operand1, int operand2, char* operator, int* error) {
     
     if (strcmp(operator, "^") == 0){
-        return pow(operand1, operand2);
+        int res = 1;
+        for(int i=0; i<operand2; i++)
+            res = res * operand1;
+        return res;
     }else if (strcmp(operator, "*") == 0){
         return operand1 * operand2;   
     }else if (strcmp(operator, "/") == 0){
@@ -23,7 +26,10 @@ int postfixAnswer(int operand1, int operand2, char* operator, int* error) {
         }
         else return operand1 / operand2;
     }else if (strcmp(operator, "%") == 0){
-        return operand1 % operand2;
+        if (operand2 == 0){
+            *error = 1;
+        }
+        else return operand1 % operand2;
     }else if (strcmp(operator, "+") == 0){
         return operand1 + operand2;
     }else if (strcmp(operator, "-") == 0){

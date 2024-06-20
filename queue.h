@@ -9,7 +9,7 @@ typedef char token10[11];
 
 
 typedef struct Queue{
-    token10 token[256];
+    token10 token[256];//a limit of 10 characters per token since the limit of C int is within 10 digits
     int headIndex;
     int tailIndex;
 }Queue;

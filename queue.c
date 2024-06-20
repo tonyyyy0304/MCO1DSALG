@@ -13,7 +13,7 @@ void initQueue(Queue* queue) {
     queue->headIndex = -1;
     queue->tailIndex = -1;
     for(int i = 0; i<256; i++)
-        strcpy(queue->token[i], "\0");
+        strcpy(queue->token[i], "\0");//initiates all array values to null
 }
 
 /**

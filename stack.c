@@ -12,7 +12,7 @@ void initStack(Stack* stack)
 {
     stack->topIndex = -1;
      for(int i = 0; i<256; i++)
-        strcpy(stack->token[i], "\0");
+        strcpy(stack->token[i], "\0");//initiates all array values to null
 }
 
 /**
@@ -26,10 +26,11 @@ void resetStack(Stack* stack)
 {
     stack->topIndex = -1;
      for(int i = 0; i<256; i++)
-        strcpy(stack->token[i], "\0");
+        strcpy(stack->token[i], "\0");//resets all array values to null
 }
 
 /**
+ * 
  * @brief Push an element onto the stack.
  *
  * This function pushes a string onto the stack. If the stack is full, it returns 0; otherwise, it returns 1.
@@ -46,7 +47,6 @@ int push(Stack* stack, char* src)
     {
         stack->topIndex += 1;
         strcpy(stack->token[stack->topIndex], src);
-       
     }
     return 1;
 }

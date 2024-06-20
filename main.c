@@ -28,7 +28,7 @@ int main()
     initStack(&operatorStack);
     
     String256 temp;
-    String100 tempArray[256];
+    token10 tempArray[256];
 
     int stop = 0;
     int error = 0;
@@ -51,14 +51,11 @@ int main()
 
     while(fgets(input, sizeof(input), fp_input) != NULL && !(stop)){
         
-        printf("Input: %s", input);
+        printf("%s", input);
         if (strcmp(input, "QUIT") != 0){
             tokenExtractor(input, &equation);
             infixToPostfix(&postfixEquation, &equation, &operatorStack, equation.tailIndex);
-            
-            printf("\n");
-            printf("Postfix: ");
-
+        
             int i = 0;
             while(dequeue(&postfixEquation, temp)){
                 printf("%s ", temp);
@@ -75,7 +72,7 @@ int main()
 
             int result = evaluatePostfix(&postfixEquation, &operandStack, &error);
             if (!error){
-                printf("Answer: %d", result);
+                printf("%d", result);
                 fprintf(fp_output, "%d\n", result);
                 fprintf(fp_output, "\n");
             }else{
