@@ -1,5 +1,14 @@
 typedef char output[10];
 
+/**
+ * @brief Check if a character is a digit.
+ *
+ * This function returns 1 if the character is a digit ('0'-'9'),
+ * and 0 otherwise.
+ *
+ * @param c The character to check.
+ * @return 1 if c is a digit, 0 otherwise.
+ */
 int isDigit(char c)
 {
     if(c >= '0' && c <= '9')
@@ -8,6 +17,16 @@ int isDigit(char c)
         return 0;
 }
 
+/**
+ * @brief Check if a character is an operator.
+ *
+ * This function returns 1 if the character is one of the following operators:
+ * +, *, /, -, !, %, ^, <, >, =, |, &.
+ * It returns 0 otherwise.
+ *
+ * @param c The character to check.
+ * @return 1 if c is an operator, 0 otherwise.
+ */
 int isOperator(char c)
 {
      if(c == '+' || c == '*' ||c == '/' ||c == '-' || c == '!' || c == '%' ||
@@ -17,6 +36,15 @@ int isOperator(char c)
         return 0;
 }
 
+/**
+ * @brief Check if a character is a unary operator.
+ *
+ * This function returns 1 if the character is the unary operator '!'.
+ * It returns 0 otherwise.
+ *
+ * @param c The character to check.
+ * @return 1 if c is a unary operator, 0 otherwise.
+ */
 int isUnaryOperator(char c)
 {
     if(c == '!')
@@ -25,15 +53,29 @@ int isUnaryOperator(char c)
         return 0;
 }
 
+/**
+ * @brief Check if a character is a parenthesis.
+ *
+ * This function returns 1 if the character is a parenthesis ('(' or ')').
+ * It returns 0 otherwise.
+ *
+ * @param c The character to check.
+ * @return 1 if c is a parenthesis, 0 otherwise.
+ */
 int isParenthesis(char c)
 {
     return (c == '(' || c == ')');
 }
 
-/*
-*   This function groups digits and operators that must be treated as one token in the translation algorithm
-*
-*/
+/**
+ * @brief Extract tokens from an input string and enqueue them.
+ *
+ * This function processes the input string, grouping digits and operators
+ * that must be treated as single tokens, and enqueues them into the provided queue.
+ *
+ * @param stringInput The input string to process.
+ * @param queue Pointer to the queue where tokens will be enqueued.
+ */
 void tokenExtractor(char* stringInput, Queue* queue)
 {
     int i;
@@ -71,6 +113,15 @@ void tokenExtractor(char* stringInput, Queue* queue)
     }
 }
 
+/**
+ * @brief Get the incoming precedence of an operator.
+ *
+ * This function returns the precedence level of an operator when it is encountered in the input.
+ * Higher values indicate higher precedence.
+ *
+ * @param operator The operator as a string.
+ * @return The precedence level of the operator.
+ */
 int InComingPrecedence(char* operator){
     
     if (strcmp(operator, "!") == 0){
@@ -95,6 +146,15 @@ int InComingPrecedence(char* operator){
     return 0;
 }
 
+/**
+ * @brief Get the in-stack precedence of an operator.
+ *
+ * This function returns the precedence level of an operator when it is in the stack.
+ * Higher values indicate higher precedence.
+ *
+ * @param operator The operator as a string.
+ * @return The precedence level of the operator.
+ */
 int InStackPrecedence(char* operator){
     if (strcmp(operator, "!") == 0){
         return 8;
@@ -117,46 +177,45 @@ int InStackPrecedence(char* operator){
     return 0;
 }
 
-
-/*
-    This function translates the tokenized infix expression to postfix
-
-    param:
-    Queue* queue : this is the address of queue that will hold the translated postfix expression
-    Queue* keep : this is the address pf queue that holds the tokenized infix expression
-    Stack* stack : this is the address of operator stack
-    int length : this is the length of the infix notation to be translated
-
-*/
+/**
+ * @brief Convert an infix expression to postfix notation.
+ *
+ * This function processes the tokens in the 'keep' queue, converting the infix expression
+ * to postfix notation and enqueuing the result into the 'queue'. It uses a stack to manage operators.
+ *
+ * @param queue Pointer to the queue where the postfix expression will be enqueued.
+ * @param keep Pointer to the queue containing the infix expression tokens.
+ * @param stack Pointer to the stack used for operator management.
+ * @param length The length of the token queue.
+ */
 void infixToPostfix(Queue* queue, Queue* keep, Stack *stack, int length){
     int i;
     char temp[100];
 
     for (i = 0; i <= length; i++){
         if (isDigit(keep->token[i][0])){
-            enqueue(queue, keep->token[i]); //if token is a number, immediately enqueue it to the postfix queue
+            enqueue(queue, keep->token[i]); 
         }else if (isOperator(keep->token[i][0])){
-           while(stack->topIndex != -1 && InComingPrecedence(keep->token[i]) <= InStackPrecedence(stack->token[stack->topIndex])){ //this loop compares the precedence on the stack and the incoming operator
-                pop(stack, temp);//in the postfix algo, we pop if the stack precedence has higher or equal precedence
-                enqueue(queue, temp);//this delivers the operator to the postfix expression queue
-            }
-
-            push(stack, keep->token[i]);//after checking precedence, we push to the operator stack
-            //it is important to note that the while loop may not happen, thus directly pushing the operator to the stack
-        }else if (strcmp(keep->token[i], "(") == 0){
-             push(stack, keep->token[i]);//we always push open parenthesis
-        }else if (strcmp(keep->token[i], ")") == 0){
-            while (stack->topIndex != -1 && strcmp(stack->token[stack->topIndex], "(") != 0) {
-                pop(stack, temp);//we always pop everything inside the parentheses
+           while(stack->topIndex != -1 && InComingPrecedence(keep->token[i]) <= InStackPrecedence(stack->token[stack->topIndex])){ 
+                pop(stack, temp);
                 enqueue(queue, temp);
             }
 
-            pop(stack, temp);// this is to remove the open parenthesis
+            push(stack, keep->token[i]);
+        }else if (strcmp(keep->token[i], "(") == 0){
+             push(stack, keep->token[i]);
+        }else if (strcmp(keep->token[i], ")") == 0){
+            while (stack->topIndex != -1 && strcmp(stack->token[stack->topIndex], "(") != 0) {
+                pop(stack, temp);
+                enqueue(queue, temp);
+            }
+
+            pop(stack, temp);
         }
     }
 
     while (stack->topIndex != -1){
-        pop(stack, temp);//if there are remaining operators in stack after scanning all tokens, we pop everything inside it
+        pop(stack, temp);
         enqueue(queue, temp);
     }
 
