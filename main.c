@@ -1,12 +1,12 @@
-#include<string.h>
-#include<stdio.h>
-#include<stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "stack.h"
 #include "queue.h"
 #include "queue.c"
 #include "stack.c"
 #include <conio.h>
-#include<math.h>
+#include <math.h>
 #include "infixToPostfix.c"
 #include "evaluatePostfix.c"
 
@@ -30,10 +30,27 @@ int main()
     String256 temp;
     String100 tempArray[256];
 
-    do{
-        printf("Input infix expression (enter QUIT to end program): ");
-        scanf(" %s", input);
+    int stop = 0;
+
+    FILE *fp_input;
+    FILE *fp_output;
+
+    fp_input = fopen("infix.txt", "r");
+    fp_output = fopen("output.txt", "a");
+
+    if (fp_input == NULL){
+        printf("Error accessing file");
+        return 0;
+    }
+
+    if (fp_output == NULL){
+        printf("Error accessing file");
+        return 0;
+    }
+
+    while(fgets(input, sizeof(input), fp_input) != NULL && !(stop)){
         
+        printf("Input: %s", input);
         if (strcmp(input, "QUIT") != 0){
             tokenExtractor(input, &equation);
             infixToPostfix(&postfixEquation, &equation, &operatorStack, equation.tailIndex);
@@ -45,15 +62,25 @@ int main()
             while(dequeue(&postfixEquation, temp)){
                 printf("%s ", temp);
                 strcpy(tempArray[i], temp);
+                fprintf(fp_output, "%s ", temp);
                 i++;
             }
+            fprintf(fp_output, "\n");
+
             printf("\n");
 
             for(int j = 0; j<i; j++)
                 enqueue(&postfixEquation, tempArray[j]);
 
             int result = evaluatePostfix(&postfixEquation, &operandStack);
-            printf("%d", result);
+            if (result != -1){
+                printf("Answer: %d", result);
+                fprintf(fp_output, "%d\n", result);
+                fprintf(fp_output, "\n");
+            }else{
+                printf("Error! Division by zero");
+                fprintf(fp_output, "Error! Division by zero\n\n");
+            }
 
             printf("\n");
             
@@ -62,8 +89,13 @@ int main()
             resetStack(&operatorStack);
             resetStackInt(&operandStack);
             printf("\n");
+        }else if (strcmp(input, "QUIT") == 0){
+            stop = 1;
         }
-    }while(strcmp(input, "QUIT") != 0);
+    }
+
+    fclose(fp_input);
+    fclose(fp_output);
 
     return 0;
 }
