@@ -50,6 +50,7 @@ int main()
     while(fgets(input, sizeof(input), fp_input) != NULL && !(stop)){
         
         printf("%s", input);
+        fprintf(fp_output, "%s", input);
         if (strcmp(input, "QUIT") != 0){
             tokenExtractor(input, tokenInfix, &counter);
             infixToPostfix(&postfixEquation, tokenInfix, &operatorStack, counter);
@@ -72,7 +73,7 @@ int main()
                 fprintf(fp_output, "%d\n", result);
                 fprintf(fp_output, "\n");
             }else{
-                printf("Error! Division by zero");
+                printf("Error! Division by zero\n");
                 fprintf(fp_output, "Error! Division by zero\n\n");
                 error = 0;
             }
