@@ -5,7 +5,7 @@
 
 typedef char String100[100];
 typedef char String256[256];
-typedef char token10[100];
+typedef char token10[11];
 
 
 typedef struct Queue{
