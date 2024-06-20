@@ -49,13 +49,12 @@ int main()
 
     while(fgets(input, sizeof(input), fp_input) != NULL && !(stop)){
         
-        printf("Infix: %s\n", input);
+        printf("%s", input);
         if (strcmp(input, "QUIT") != 0){
             tokenExtractor(input, tokenInfix, &counter);
             infixToPostfix(&postfixEquation, tokenInfix, &operatorStack, counter);
         
             int i = 0;
-            printf("Postfix: ");
             while(dequeue(&postfixEquation, temp)){
                 printf("%s ", temp);
                 strcpy(tempArray[i], temp);
@@ -63,15 +62,13 @@ int main()
                 i++;
             }
             fprintf(fp_output, "\n");
-
-            printf("\n");
-
+            
             for(int j = 0; j<i; j++)
                 enqueue(&postfixEquation, tempArray[j]);
-
+            printf("\n");
             int result = evaluatePostfix(&postfixEquation, &operandStack, &error);
             if (!error){
-                printf("Answer: %d\n", result);
+                printf("%d\n", result);
                 fprintf(fp_output, "%d\n", result);
                 fprintf(fp_output, "\n");
             }else{
@@ -89,7 +86,6 @@ int main()
             for(int k=0; k<256; k++)
                 strcpy(tokenInfix[k],"\0");
 
-            printf("\n");
         }else if (strcmp(input, "QUIT") == 0){
             stop = 1;
         }
