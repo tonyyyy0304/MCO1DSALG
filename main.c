@@ -31,12 +31,13 @@ int main()
     String100 tempArray[256];
 
     int stop = 0;
+    int error = 0;
 
     FILE *fp_input;
     FILE *fp_output;
 
     fp_input = fopen("infix.txt", "r");
-    fp_output = fopen("output.txt", "a");
+    fp_output = fopen("output.txt", "w");
 
     if (fp_input == NULL){
         printf("Error accessing file");
@@ -72,14 +73,15 @@ int main()
             for(int j = 0; j<i; j++)
                 enqueue(&postfixEquation, tempArray[j]);
 
-            int result = evaluatePostfix(&postfixEquation, &operandStack);
-            if (result != -1){
+            int result = evaluatePostfix(&postfixEquation, &operandStack, &error);
+            if (!error){
                 printf("Answer: %d", result);
                 fprintf(fp_output, "%d\n", result);
                 fprintf(fp_output, "\n");
             }else{
                 printf("Error! Division by zero");
                 fprintf(fp_output, "Error! Division by zero\n\n");
+                error = 0;
             }
 
             printf("\n");

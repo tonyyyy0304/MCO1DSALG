@@ -17,6 +17,14 @@ int isOperator(char c)
         return 0;
 }
 
+int isUnaryOperator(char c)
+{
+    if(c == '!')
+        return 1;
+    else
+        return 0;
+}
+
 int isParenthesis(char c)
 {
     return (c == '(' || c == ')');
@@ -48,7 +56,6 @@ void tokenExtractor(char* stringInput, Queue* queue)
         else if(isOperator(stringInput[i]))
         {
             strncat(temp, &stringInput[i], 1);
-
             if(!isOperator(stringInput[i+1]))
             {
                 enqueue(queue, temp);
@@ -66,7 +73,9 @@ void tokenExtractor(char* stringInput, Queue* queue)
 
 int InComingPrecedence(char* operator){
     
-    if (strcmp(operator, "^") == 0){
+    if (strcmp(operator, "!") == 0){
+        return 9;
+    }else if (strcmp(operator, "^") == 0){
         return 7;
     }else if (strcmp(operator, "*") == 0 || strcmp(operator, "/") == 0){
         return 6;
@@ -87,8 +96,9 @@ int InComingPrecedence(char* operator){
 }
 
 int InStackPrecedence(char* operator){
-
-    if (strcmp(operator, "^") == 0){
+    if (strcmp(operator, "!") == 0){
+        return 8;
+    }else if (strcmp(operator, "^") == 0){
         return 7;
     }else if (strcmp(operator, "*") == 0 || strcmp(operator, "/") == 0){
         return 6;

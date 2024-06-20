@@ -1,0 +1,24 @@
+1 1 + 
+2
+
+1 0 != 
+1
+
+1 ! 0 != 
+0
+
+1 ! 1 + 
+1
+
+1 0 / 
+Error! Division by zero
+
+1 1 0 / + 
+Error! Division by zero
+
+9 1 + 2 ^ ! 
+0
+
+10 3 ^ 1 + 9 2 ^ - 
+920
+
