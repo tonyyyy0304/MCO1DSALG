@@ -1,9 +1,9 @@
 #include<string.h>
 #include<stdio.h>
-#include "queue.c"
-#include "stack.c"
 #include "stack.h"
 #include "queue.h"
+#include "queue.c"
+#include "stack.c"
 #include "getters.h"
 #include <conio.h>
 #include "infixToPostfix.c"
