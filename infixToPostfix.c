@@ -72,13 +72,13 @@ int isParenthesis(char c)
  * that must be treated as single tokens, and enqueues them into the provided queue.
  *
  * @param stringInput The input string to process.
- * @param queue Pointer to the queue where tokens will be enqueued.
+ * @param tokenArr string array where tokens will be stored.
  */
-void tokenExtractor(char* stringInput, Queue* queue)
+void tokenExtractor(char* stringInput, token10 tokenArr[], int* counter)
 {
-    int i;
+    int i, j=0;
 
-    char temp[100] = "\0";
+    char temp[11] = "\0";
 
     for (i=0; i<strlen(stringInput); i++)
     {
@@ -89,8 +89,9 @@ void tokenExtractor(char* stringInput, Queue* queue)
 
             if(!isDigit(stringInput[i+1]))
             {
-                enqueue(queue, temp);
+                strcpy(tokenArr[j], temp);
                 strcpy(temp, "\0");
+                j++;
             }
         }
         else if(isOperator(stringInput[i]))
@@ -101,16 +102,19 @@ void tokenExtractor(char* stringInput, Queue* queue)
                 strncat(temp, &stringInput[i+1], 1);
                 i++;
             }
-            enqueue(queue, temp);
+            strcpy(tokenArr[j], temp);
             strcpy(temp, "\0");
+            j++;
         }
         else if(isParenthesis(stringInput[i]))
         {
             strncat(temp, &stringInput[i], 1);
-            enqueue(queue, temp);
+            strcpy(tokenArr[j], temp);
             strcpy(temp, "\0");
+            j++;
         }
     }
+    *counter = j;
 }
 
 /**
@@ -188,23 +192,22 @@ int InStackPrecedence(char* operator){
  * @param stack Pointer to the stack used for operator management.
  * @param length The length of the token queue.
  */
-void infixToPostfix(Queue* queue, Queue* keep, Stack *stack, int length){
+void infixToPostfix(Queue* queue, token10 tokenArr[], Stack *stack, int length){
     int i;
     char temp[100];
 
     for (i = 0; i <= length; i++){
-        if (isDigit(keep->token[i][0])){
-            enqueue(queue, keep->token[i]); 
-        }else if (isOperator(keep->token[i][0])){
-           while(stack->topIndex != -1 && InComingPrecedence(keep->token[i]) <= InStackPrecedence(stack->token[stack->topIndex])){ 
+        if (isDigit(tokenArr[i][0])){
+            enqueue(queue, tokenArr[i]); 
+        }else if (isOperator(tokenArr[i][0])){
+           while(stack->topIndex != -1 && InComingPrecedence(tokenArr[i]) <= InStackPrecedence(stack->token[stack->topIndex])){ 
                 pop(stack, temp);
                 enqueue(queue, temp);
             }
-
-            push(stack, keep->token[i]);
-        }else if (strcmp(keep->token[i], "(") == 0){
-             push(stack, keep->token[i]);
-        }else if (strcmp(keep->token[i], ")") == 0){
+            push(stack, tokenArr[i]);
+        }else if (strcmp(tokenArr[i], "(") == 0){
+             push(stack, tokenArr[i]);
+        }else if (strcmp(tokenArr[i], ")") == 0){
             while (stack->topIndex != -1 && strcmp(stack->token[stack->topIndex], "(") != 0) {
                 pop(stack, temp);
                 enqueue(queue, temp);
