@@ -14,15 +14,15 @@
 
 int main()
 {
-    StackInt operandStack;
-    Stack operatorStack;
+    StackInt operandStack; // this stack is used for evaluating postfix expressions 
+    Stack operatorStack; // this stack is used for converting infix to postfix 
 
-    Queue equation;
-    Queue postfixEquation;
+    Queue equation; // this queue keeps the tokenized infix expresion
+    Queue postfixEquation; // this queue stores postfix expression
     
     String256 input;
 
-    initQueue(&equation);
+    initQueue(&equation); 
     initQueue(&postfixEquation);
     initStackInt(&operandStack);
     initStack(&operatorStack);
@@ -51,12 +51,13 @@ int main()
 
     while(fgets(input, sizeof(input), fp_input) != NULL && !(stop)){
         
-        printf("%s", input);
+        printf("Infix: %s\n", input);
         if (strcmp(input, "QUIT") != 0){
             tokenExtractor(input, &equation);
             infixToPostfix(&postfixEquation, &equation, &operatorStack, equation.tailIndex);
         
             int i = 0;
+            printf("Postfix: ");
             while(dequeue(&postfixEquation, temp)){
                 printf("%s ", temp);
                 strcpy(tempArray[i], temp);
@@ -72,7 +73,7 @@ int main()
 
             int result = evaluatePostfix(&postfixEquation, &operandStack, &error);
             if (!error){
-                printf("%d", result);
+                printf("Answer: %d\n", result);
                 fprintf(fp_output, "%d\n", result);
                 fprintf(fp_output, "\n");
             }else{
