@@ -20,15 +20,14 @@ int enqueue(Queue* queue, char* src)
 {
     if(queue->tailIndex == 255)
         return 0;
-    else
-    {
+    else{
         if(queue->headIndex == -1)
             queue->headIndex = 0;
         
         queue->tailIndex += 1;
         strcpy(queue->token[queue->tailIndex], src);
         return 1;
-    } 
+    }
 }
 
 int dequeue(Queue* queue, char* dest)

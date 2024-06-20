@@ -11,7 +11,8 @@ int postfixAnswer(int operand1, int operand2, char* operator) {
             printf("Division by zero error!");
         }
         else return operand1 / operand2;
-
+    }else if (strcmp(operator, "%") == 0){
+        return operand1 % operand2;
     }else if (strcmp(operator, "+") == 0){
         return operand1 + operand2;
     }else if (strcmp(operator, "-") == 0){
@@ -38,31 +39,25 @@ int postfixAnswer(int operand1, int operand2, char* operator) {
 
 }
 
-
-
 int evaluatePostfix(Queue *queue, StackInt *stack){
 
-    int operand1, operand2, result;
-    char *operator;
+    int operand1, operand2, resultInt = 0;
+    char operator[100];
     int temp;
-
-    while (queue->headIndex != -1 && queue->tailIndex != -1){
-        dequeue(queue, operator);
-
-         if (isDigit(operator[0])){
-                temp = atoi(operator);
-                pushInt(stack, temp);
+    
+    while (dequeue(queue, operator)){
+        
+        if(isDigit(operator[0])){
+            temp = atoi(operator);
+            pushInt(stack, temp);
         }
         else{
             popInt(stack, &operand2);
             popInt(stack, &operand1);
-            result = postfixAnswer(operand1, operand2, operator);
-            pushInt(stack, result);
+            resultInt = postfixAnswer(operand1, operand2, operator);
+            pushInt(stack, resultInt);
         }
-        free(operator); 
-        operator = (char *)malloc(10 * sizeof(char));
     }
-    popInt(stack, &result);
-
-    return result;
+    popInt(stack, &resultInt);
+    return resultInt;
 }
