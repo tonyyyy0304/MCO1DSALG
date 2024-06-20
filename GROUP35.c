@@ -51,7 +51,7 @@ int main()
         
         printf("%s", input);
         fprintf(fp_output, "%s", input);
-        if (strcmp(input, "QUIT\n") != 0){
+        if (strcmp(input, "QUIT\n") != 0 && strcmp(input, "QUIT") != 0){
             tokenExtractor(input, tokenInfix, &counter);
             infixToPostfix(&postfixEquation, tokenInfix, &operatorStack, counter);
         
@@ -87,7 +87,7 @@ int main()
             for(int k=0; k<256; k++)
                 strcpy(tokenInfix[k],"\0");
 
-        }else if (strcmp(input, "QUIT\n") == 0){
+        }else if (strcmp(input, "QUIT\n") == 0 || strcmp(input, "QUIT") == 0){
             stop = 1;
         }
     }
