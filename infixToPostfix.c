@@ -1,8 +1,3 @@
-#include<string.h>
-#include<stdio.h>
-#include "queue.c"
-#include "stack.c"
-
 typedef char output[10];
 
 int isDigit(char c)

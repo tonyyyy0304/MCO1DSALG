@@ -1,11 +1,3 @@
-#include <string.h>
-#include <stdio.h>
-#include <math.h>
-#include "queue.c"
-#include "stack.c"
-#include "infixToPostfix.c"
-
-
 
 int postfixAnswer(int operand1, int operand2, char* operator) {
     
@@ -48,26 +40,29 @@ int postfixAnswer(int operand1, int operand2, char* operator) {
 
 
 
-int evaluatePostfix(Queue *queue, Stack *stack){
+int evaluatePostfix(Queue *queue, StackInt *stack){
 
     int operand1, operand2, result;
     char *operator;
+    int temp;
 
     while (queue->headIndex != -1 && queue->tailIndex != -1){
-        dequeue(queue, &operator);
+        dequeue(queue, operator);
 
-         if (isDigit(operator[0]) && isDigit(operator[1])){
-                push(stack, atoi(operator));
-     }else{
-        pop(stack, operand2);
-        pop(stack, operand1);
-        result = postfixAnswer(operand1, operand2, operator);
-        push(stack, result);
-     }
+         if (isDigit(operator[0])){
+                temp = atoi(operator);
+                pushInt(stack, temp);
+        }
+        else{
+            popInt(stack, &operand2);
+            popInt(stack, &operand1);
+            result = postfixAnswer(operand1, operand2, operator);
+            pushInt(stack, result);
+        }
+        free(operator); 
+        operator = (char *)malloc(10 * sizeof(char));
+    }
+    popInt(stack, &result);
 
-     free(operator);
-
-}
-
-return pop(stack, result);
+    return result;
 }

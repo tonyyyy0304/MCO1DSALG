@@ -1,13 +1,21 @@
+#include<string.h>
 #include<stdio.h>
+#include "queue.c"
+#include "stack.c"
+#include "stack.h"
+#include "queue.h"
 #include "getters.h"
-#include<conio.h>
+#include <conio.h>
 #include "infixToPostfix.c"
+#include "evaluatePostfix.c"
+
+
 
 #define MAX_INPUT 255
 
 int main()
 {
-    Stack operandStack;
+    StackInt operandStack;
     Stack operatorStack;
 
     Queue equation;
@@ -16,7 +24,7 @@ int main()
 
     initQueue(&equation);
     initQueue(&postfixEquation);
-    initStack(&operandStack);
+    initStackInt(&operandStack);
     initStack(&operatorStack);
     
     String256 temp;
@@ -28,18 +36,21 @@ int main()
         if (strcmp(input, "QUIT") != 0){
             tokenExtractor(input, &equation);
             infixToPostfix(&postfixEquation, &equation, &operatorStack, equation.tailIndex);
+            
 
             printf("\n");
             printf("Postfix: ");
             while(dequeue(&postfixEquation, temp)){
                 printf("%s ", temp);
             }
+            printf("\n");
+            printf("%d", evaluatePostfix(&postfixEquation, &operandStack));
 
             printf("\n");
             resetQueue(&postfixEquation);
             resetQueue(&equation);
             resetStack(&operatorStack);
-
+            resetStackInt(&operandStack);
             printf("\n");
         }
     }while(strcmp(input, "QUIT") != 0);

@@ -12,5 +12,10 @@ typedef struct Stack{
     int topIndex;
 }Stack;
 
+typedef struct StackInt{
+    int token[256];
+    int topIndex;
+}StackInt;
+
 
 #endif
